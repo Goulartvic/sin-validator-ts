@@ -24,11 +24,10 @@ export function SINNumberValidator() {
     const [buttonStatus, setButtonStatus] = useState('disabled' as buttonVariant);
 
     function formatSocialNumber(inputValue: string) {
-        const digits = inputValue.replace(/\D/g, '');
         const parts = [
-          digits.slice(0, 3),
-          digits.slice(3, 6),
-          digits.slice(6, 9)
+            inputValue.slice(0, 3),
+            inputValue.slice(3, 6),
+            inputValue.slice(6, 9)
         ];
         return parts.filter(Boolean).join('-');
     }
