@@ -19,6 +19,8 @@ export function SINNumberValidator() {
 
     const [isResetButtonVisible, setIsResetButtonVisible] = useState(false);
 
+    const [buttonText, setButtonText] = useState('Check Eligibility');
+
     const [buttonStatus, setButtonStatus] = useState('disabled' as buttonVariant);
 
     function formatSocialNumber(inputValue: string) {
@@ -55,7 +57,8 @@ export function SINNumberValidator() {
             setFeedbackStatus('success');
             setFeedbackText("✅ Your SIN is valid! You're one step closer to accessing flexible payment options.");
             setIsResetButtonVisible(true);
-            setButtonStatus('secondary')
+            setButtonStatus('secondary');
+            setButtonText('Continue to payment plan');
         } else {
             setFeedbackStatus('fail');
             setFeedbackText("❌ Invalid SIN. Please check the number and try again.");
@@ -72,6 +75,7 @@ export function SINNumberValidator() {
             setFeedbackVisibility('hidden');
             setIsResetButtonVisible(false);
             setButtonStatus('disabled')
+            setButtonText('Check Eligibility')
         } else {
             setButtonStatus('primary')
         }
@@ -83,6 +87,7 @@ export function SINNumberValidator() {
         setFeedbackVisibility('hidden');
         setIsResetButtonVisible(false);
         setButtonStatus('disabled')
+        setButtonText('Check Eligibility')
     }
 
     const isInputValid = socialNumber.length === 9
@@ -114,7 +119,7 @@ export function SINNumberValidator() {
                     />
                     <Button 
                         variant={buttonStatus}
-                        text="Check Eligibility"
+                        text={buttonText}
                         disabled={!isInputValid}
                     />
                     

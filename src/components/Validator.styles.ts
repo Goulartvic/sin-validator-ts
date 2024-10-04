@@ -8,12 +8,18 @@ export const ValidatorContainer = styled.div`
     flex-direction: column;
 
     main {
-        width: 32.5%;
         background: var(--white);
         gap: 1rem;
         padding: 2.5rem;
         border-radius: 20px;
         border: 1px solid var(--gray-100);
+
+        @media (min-width: 768px) {
+            width: 50%;
+        }
+        @media (min-width: 992px) {
+            width: 32.5%;
+        }
     }
 
     header {
