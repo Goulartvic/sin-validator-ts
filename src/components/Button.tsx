@@ -6,5 +6,5 @@ interface ButtonProps {
 }
 
 export function Button({ disabled=false, text }: ButtonProps) {
-    return (<ButtonContainer disabled={disabled} >{text}</ButtonContainer>)
+    return (<ButtonContainer type="submit" disabled={disabled} >{text}</ButtonContainer>)
 }

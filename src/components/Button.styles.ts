@@ -19,4 +19,8 @@ export const ButtonContainer = styled.button`
     &:hover {
         background: var(--orange-500);
     }
+
+    &:disabled {
+        background: var(--gray-700);
+    }
 `

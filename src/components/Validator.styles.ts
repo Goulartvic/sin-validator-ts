@@ -35,6 +35,10 @@ export const ValidatorContainer = styled.div`
         line-height: 1.2;
     }
 
+    form {
+        margin-top: 1.5rem;
+    }
+
     form span {
         margin-top: 0.5rem;
         display: block;
@@ -43,16 +47,22 @@ export const ValidatorContainer = styled.div`
         line-height: 1.2;
     }
 
-    form textarea {
+    form input {
         width: 100%;
-        margin-top: 0.25rem;
+        margin-top: 0.5em;
         resize: none;
-        height: 2.25rem;
+        height: 2.5rem;
         padding: 0.5rem;
-        border-radius: 8px;
+        border-radius: 4px;
+        border-width: 1px;
         color: var(--blue-800);
         line-height: 1.2;
         border-color: var(--blue-800);
+    }
+
+    form input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
     }
 
     Button {
