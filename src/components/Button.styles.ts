@@ -1,11 +1,29 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-export const ButtonContainer = styled.button`
+export type buttonVariant = 'primary' | 'secondary' | 'disabled'
+
+interface ButtonContainerProps {
+    variant: buttonVariant;
+}
+
+const buttonColorVariant = {
+    primary: '--blue-800',
+    secondary: '--orange-500',
+    disabled: '--gray-700'
+}
+
+const buttonHoverColorVariant = {
+    primary: '--orange-500',
+    secondary: '--orange-500',
+    disabled: '--gray-700'
+}
+
+
+export const ButtonContainer = styled.button<ButtonContainerProps>`
     width: 100%;
     height: 3rem;
     padding: 1rem;
     border-radius: 10px;
-    background: var(--blue-800);
     color: var(--white);
     border: 0;
     align-items: center;
@@ -16,11 +34,13 @@ export const ButtonContainer = styled.button`
 
     cursor: pointer;
 
-    &:hover {
-        background: var(--orange-500);
-    }
+    ${props => {
+        return css`
+            background: var(${buttonColorVariant[props.variant]});
 
-    &:disabled {
-        background: var(--gray-700);
-    }
+            &:hover {
+                background: var(${buttonHoverColorVariant[props.variant]});
+            }
+        `
+    }}
 `

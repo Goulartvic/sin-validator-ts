@@ -1,12 +1,25 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Button } from "./Button";
 import { ValidatorContainer } from "./Validator.styles";
+import { ValidatorFeedback } from "./ValidatorFeedback";
+import { feedbackVariant, feedbackVisibility } from "./ValidatorFeedback.styles";
+import { buttonVariant } from "./Button.styles";
 
 export function SINNumberValidator() {
 
     const [socialNumber, setSocialNumber] = useState("");
 
     const [formattedSocialNumber, setFormattedSocialNumber] = useState("");
+
+    const [feedbackVisibility, setFeedbackVisibility] = useState('hidden' as feedbackVisibility);
+
+    const [feedbackStatus, setFeedbackStatus] = useState('success' as feedbackVariant);
+
+    const [feedbackText, setFeedbackText] = useState('');
+
+    const [isResetButtonVisible, setIsResetButtonVisible] = useState(false);
+
+    const [buttonStatus, setButtonStatus] = useState('disabled' as buttonVariant);
 
     function formatSocialNumber(inputValue: string) {
         const digits = inputValue.replace(/\D/g, '');
@@ -18,13 +31,15 @@ export function SINNumberValidator() {
         return parts.filter(Boolean).join('-');
     }
 
-    function handleValidateSINNumber(event: FormEvent) : boolean {
-        event.preventDefault()
+    function handleValidateSINNumber(event: FormEvent) {
+        event.preventDefault();
+        
+        const isValid = validateSINNumber(socialNumber);
+        handleEligibilityStatus(isValid);
+    }
 
-        console.log(socialNumber)
-
+    function validateSINNumber(socialNumber: string): boolean {
         const socialNumberSum = socialNumber.split('').reduce((accumulator, value, index) => {
-            console.log(accumulator)
             let digit = parseInt(value, 10);
             if (index % 2 === 1) {
                 digit *= 2;
@@ -32,18 +47,42 @@ export function SINNumberValidator() {
             }
             return accumulator + digit;
           }, 0);
-
-        console.log(socialNumberSum % 10 === 0);
         return socialNumberSum % 10 === 0;
     }
 
-    function handleSocialNumberChange(event: ChangeEvent<HTMLInputElement>) {
-        event.target.setCustomValidity('')
-        const inputValue = event.target.value.replace(/\D/g, '').slice(0, 9);
-        setSocialNumber(inputValue)
-        setFormattedSocialNumber(formatSocialNumber(inputValue))
+    function handleEligibilityStatus(isValid: boolean) {
+        if (isValid) {
+            setFeedbackStatus('success');
+            setFeedbackText("✅ Your SIN is valid! You're one step closer to accessing flexible payment options.");
+            setIsResetButtonVisible(true);
+            setButtonStatus('secondary')
+        } else {
+            setFeedbackStatus('fail');
+            setFeedbackText("❌ Invalid SIN. Please check the number and try again.");
+        }
+        setFeedbackVisibility('visible');
+    }
 
-        console.log(socialNumber)
+    function handleSocialNumberChange(event: ChangeEvent<HTMLInputElement>) {
+        const inputValue = event.target.value.replace(/\D/g, '').slice(0, 9);
+        setSocialNumber(inputValue);
+        setFormattedSocialNumber(formatSocialNumber(inputValue));
+
+        if (!(inputValue.length === 9)) {
+            setFeedbackVisibility('hidden');
+            setIsResetButtonVisible(false);
+            setButtonStatus('disabled')
+        } else {
+            setButtonStatus('primary')
+        }
+    }
+
+    function handleInputReset() {
+        setSocialNumber('');
+        setFormattedSocialNumber('');
+        setFeedbackVisibility('hidden');
+        setIsResetButtonVisible(false);
+        setButtonStatus('disabled')
     }
 
     const isInputValid = socialNumber.length === 9
@@ -58,7 +97,7 @@ export function SINNumberValidator() {
                 <form 
                     onSubmit={handleValidateSINNumber}
                     action=""
-                >
+                > 
                     <span>SOCIAL INSURANCE NUMBER (SIN)</span>
                     <input
                         onChange={handleSocialNumberChange}
@@ -68,10 +107,29 @@ export function SINNumberValidator() {
                         maxLength={11}
                         placeholder="Enter your 9-digit Social Insurance Number (SIN)"
                     />
+                    <ValidatorFeedback 
+                        text={feedbackText}
+                        variant={feedbackStatus}
+                        visibility={feedbackVisibility}
+                    />
                     <Button 
+                        variant={buttonStatus}
                         text="Check Eligibility"
                         disabled={!isInputValid}
                     />
+                    
+                    {isResetButtonVisible ? 
+                        <footer>
+                            <a 
+                                onClick={handleInputReset}
+                                href=''
+                            >
+                                     Check Another SIN Eligibility
+                            </a>
+                        </footer>
+                        :
+                        <></>
+                    }
                 </form>
             </main>
         </ValidatorContainer>

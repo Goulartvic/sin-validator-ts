@@ -1,4 +1,4 @@
-import { styled } from 'styled-components'
+import styled from 'styled-components'
 
 export const ValidatorContainer = styled.div`
     margin-top: 2.5rem;
@@ -8,7 +8,7 @@ export const ValidatorContainer = styled.div`
     flex-direction: column;
 
     main {
-        width: 25%;
+        width: 32.5%;
         background: var(--white);
         gap: 1rem;
         padding: 2.5rem;
@@ -39,6 +39,10 @@ export const ValidatorContainer = styled.div`
         margin-top: 1.5rem;
     }
 
+    form a {
+        text-decoration: none;
+    }
+
     form span {
         margin-top: 0.5rem;
         display: block;
@@ -67,5 +71,18 @@ export const ValidatorContainer = styled.div`
 
     Button {
         margin-top: 6rem;
+    }
+
+    footer {
+        margin-top: 1.5rem;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        text-decoration: underline;
+    }
+
+    footer a {
+        color: var(--blue-800);
     }
 `
